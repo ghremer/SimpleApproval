@@ -5,10 +5,32 @@
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
   <h2>Approved?</h2>
-  <img src="IMAGE_URL_HERE" alt="Submitted Image" style="max-width: 90%; height: auto;" />
+  <img id="submittedImage" alt="Submitted Image" style="max-width: 90%; height: auto;" />
   <br><br>
-  <a href="https://hook.integromat.com/your-approve-webhook" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
+  <a id="approveBtn" href="#" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
   &nbsp;&nbsp;
-  <a href="https://hook.integromat.com/your-reject-webhook" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
+  <a id="rejectBtn" href="#" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
+
+  <script>
+    // Parse query parameters
+    const params = new URLSearchParams(window.location.search);
+    const imageUrl = params.get("image");
+    const requestId = params.get("id"); // Optional: to identify submission
+
+    if (imageUrl) {
+      document.getElementById("submittedImage").src = decodeURIComponent(imageUrl);
+    }
+
+    // Replace with your real webhook URLs
+    const approveHook = "https://hook.integromat.com/your-approve-webhook";
+    const rejectHook = "https://hook.integromat.com/your-reject-webhook";
+
+    // Append request ID to webhook if present
+    const approvalUrl = requestId ? `${approveHook}?id=${requestId}` : approveHook;
+    const rejectionUrl = requestId ? `${rejectHook}?id=${requestId}` : rejectHook;
+
+    document.getElementById("approveBtn").href = approvalUrl;
+    document.getElementById("rejectBtn").href = rejectionUrl;
+  </script>
 </body>
 </html>
