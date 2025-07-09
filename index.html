@@ -11,26 +11,5 @@
   &nbsp;&nbsp;
   <a id="rejectBtn" href="#" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
 
-<!--   <script>
-    // Parse query parameters
-    const params = new URLSearchParams(window.location.search);
-    const imageUrl = params.get("image");
-    
-
-    if (imageUrl) {
-      document.getElementById("submittedImage").src = decodeURIComponent(imageUrl);
-    }
-
-    // Replace with your real webhook URLs
-    const approveHook = "https://hook.integromat.com/your-approve-webhook";
-    const rejectHook = "https://hook.integromat.com/your-reject-webhook";
-
-    // Append request ID to webhook if present
-    const approvalUrl = requestId ? `${approveHook}` : approveHook;
-    const rejectionUrl = requestId ? `${rejectHook}` : rejectHook;
-
-    document.getElementById("approveBtn").href = approvalUrl;
-    document.getElementById("rejectBtn").href = rejectionUrl;
-  </script> -->
 </body>
 </html>
