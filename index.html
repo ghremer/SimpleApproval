@@ -5,11 +5,36 @@
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
   <h2>Approved?</h2>
-  <img id="submittedImage" alt="Submitted Image" style="max-width: 90%; height: auto;" src="https://drive.google.com/file/d/uc?export=view&id=1-RM-uyMEEVnTTWLTqAEX6V2W8phJuzBg" />
+  <iframe id="submittedImage" alt="Submitted Image" style="max-width: 90%; height: auto;"></iframe>
   <br><br>
   <a id="approveBtn" href="#" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
   &nbsp;&nbsp;
   <a id="rejectBtn" href="#" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
 
+  <script>
+    function getImageUrlFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      let rawUrl = params.get('image');
+      if (!rawUrl) return null;
+
+      // If it's a Google Drive URL, convert to direct viewable link
+      if (rawUrl.includes("drive.google.com/file/d/")) {
+        const idMatch = rawUrl.match(/\/d\/([^/]+)\//);
+        if (idMatch) {
+          return `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
+        }
+      }
+
+      // Otherwise, return raw URL
+      return rawUrl;
+    }
+
+    const imageUrl = getImageUrlFromQuery();
+    if (imageUrl) {
+      document.getElementById('submittedImage').src = imageUrl;
+    } else {
+      document.getElementById('submittedImage').alt = "No image provided in URL.";
+    }
+  </script>
 </body>
 </html>
