@@ -18,42 +18,33 @@
   <a id="rejectBtn" href="#" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
 
   <script>
-    function getImageUrlFromQuery() {
-      const params = new URLSearchParams(window.location.search);
-      let rawUrl = params.get('image');
-      if (!rawUrl) return null;
+    const params = new URLSearchParams(window.location.search);
+const imageUrl = params.get("image");
+const email = params.get("email");
+const name = params.get("name");
 
-      // If it's a Google Drive preview URL, pass it directly
-      if (rawUrl.includes("drive.google.com/file/d/")) {
-        return rawUrl;
-      }
+const iframe = document.getElementById("submittedImage");
+if (imageUrl) {
+  iframe.src = imageUrl;
+} else {
+  iframe.style.display = "none";
+  const msg = document.createElement("p");
+  msg.textContent = "No image URL provided.";
+  document.body.insertBefore(msg, iframe);
+}
 
-      // Otherwise, return raw URL (can be another iframe-safe image or content)
-      return rawUrl;
-    }
-
-    const imageUrl = getImageUrlFromQuery();
-    const iframe = document.getElementById('submittedImage');
-
-    if (imageUrl) {
-      iframe.src = imageUrl;
-    } else {
-      // Fallback content inside the iframe is not reliable;
-      // better to show a message outside the iframe
-      const msg = document.createElement("p");
-      msg.textContent = "No image URL provided.";
-      document.body.insertBefore(msg, iframe);
-      iframe.style.display = "none";
-    }
-    const approveBtn = document.getElementById('approveBtn');
+const approveBtn = document.getElementById("approveBtn");
 const webhookUrl = "https://hook.eu2.make.com/pqd689h1dhx6h77js3kudy78erng25mj";
 
-if (imageUrl) {
-  // Send image URL as a query param
-  approveBtn.href = `${webhookUrl}?status=approved&image=${encodeURIComponent(imageUrl)}`;
-} else {
-  approveBtn.href = `${webhookUrl}?status=approved`;
-}
+// Build webhook URL with all info
+const queryParams = new URLSearchParams({
+  status: "approved",
+  image: imageUrl || "",
+  email: email || "",
+  name: name || ""
+});
+
+approveBtn.href = `${webhookUrl}?${queryParams.toString()}`;
 
   </script>
 </body>
