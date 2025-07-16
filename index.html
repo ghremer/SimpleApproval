@@ -26,8 +26,8 @@
   <h2>Approved?</h2>
   <iframe id="submittedImage"></iframe>
   <br><br>
-  <a id="approveBtn" class="button">Approve</a>
-  <a id="rejectBtn" class="button">Reject</a>
+  <a id="approveBtn" class="button" target="_blank">Approve</a>
+  <a id="rejectBtn" href="#" class="button">Reject</a>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -45,40 +45,17 @@
       document.body.insertBefore(msg, iframe);
     }
 
-    const approveBtn = document.getElementById("approveBtn");
+    // Build webhook URL with encoded query parameters
     const webhookUrl = "https://hook.eu2.make.com/pqd689h1dhx6h77js3kudy78erng25mj";
-
-    approveBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const payload = {
-        status: "approved",
-        image: imageUrl || "",
-        email: email || "",
-        name: name || ""
-      };
-
-      console.log("Sending payload:", payload);
-
-      fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(response => {
-        if (response.ok) {
-          alert("Approved and sent successfully!");
-        } else {
-          alert("Approval failed. Please try again.");
-        }
-      })
-      .catch(error => {
-        console.error("Error sending to webhook:", error);
-        alert("An error occurred while sending the approval.");
-      });
+    const queryParams = new URLSearchParams({
+      status: "approved",
+      image: imageUrl || "",
+      email: email || "",
+      name: name || ""
     });
+
+    const fullUrl = `${webhookUrl}?${queryParams.toString()}`;
+    document.getElementById("approveBtn").href = fullUrl;
   </script>
 </body>
 </html>
