@@ -45,6 +45,10 @@ const queryParams = new URLSearchParams({
 });
 
 approveBtn.href = `${webhookUrl}?${queryParams.toString()}`;
+console.log("Image:", imageUrl);
+console.log("Email:", email);
+console.log("Name:", name);
+console.log("Webhook URL:", `${webhookUrl}?${queryParams.toString()}`);
 
   </script>
 </body>
