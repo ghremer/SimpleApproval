@@ -2,10 +2,17 @@
 <html>
 <head>
   <title>Approval Request</title>
+  <style>
+    iframe {
+      width: 90%;
+      height: 600px; /* You can adjust this depending on your needs */
+      border: none;
+    }
+  </style>
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
   <h2>Approved?</h2>
-  <iframe id="submittedImage" alt="Submitted Image" style="max-width: 90%; height: auto;"></iframe>
+  <iframe id="submittedImage"></iframe>
   <br><br>
   <a id="approveBtn" href="#" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
   &nbsp;&nbsp;
@@ -17,23 +24,27 @@
       let rawUrl = params.get('image');
       if (!rawUrl) return null;
 
-      // If it's a Google Drive URL, convert to direct viewable link
+      // If it's a Google Drive preview URL, pass it directly
       if (rawUrl.includes("drive.google.com/file/d/")) {
-        const idMatch = rawUrl.match(/\/d\/([^/]+)\//);
-        if (idMatch) {
-          return `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
-        }
+        return rawUrl;
       }
 
-      // Otherwise, return raw URL
+      // Otherwise, return raw URL (can be another iframe-safe image or content)
       return rawUrl;
     }
 
     const imageUrl = getImageUrlFromQuery();
+    const iframe = document.getElementById('submittedImage');
+
     if (imageUrl) {
-      document.getElementById('submittedImage').src = imageUrl;
+      iframe.src = imageUrl;
     } else {
-      document.getElementById('submittedImage').alt = "No image provided in URL.";
+      // Fallback content inside the iframe is not reliable;
+      // better to show a message outside the iframe
+      const msg = document.createElement("p");
+      msg.textContent = "No image URL provided.";
+      document.body.insertBefore(msg, iframe);
+      iframe.style.display = "none";
     }
   </script>
 </body>
