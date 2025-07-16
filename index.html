@@ -14,8 +14,7 @@
   <h2>Approved?</h2>
   <iframe id="submittedImage"></iframe>
   <br><br>
-  <a id="approveBtn" href="#" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
-  &nbsp;&nbsp;
+  <a id="approveBtn" style="padding: 10px 20px; background: green; color: white; text-decoration: none;">Approve</a>
   <a id="rejectBtn" href="#" style="padding: 10px 20px; background: red; color: white; text-decoration: none;">Reject</a>
 
   <script>
@@ -46,6 +45,16 @@
       document.body.insertBefore(msg, iframe);
       iframe.style.display = "none";
     }
+    const approveBtn = document.getElementById('approveBtn');
+const webhookUrl = "https://hook.eu2.make.com/pqd689h1dhx6h77js3kudy78erng25mj";
+
+if (imageUrl) {
+  // Send image URL as a query param
+  approveBtn.href = `${webhookUrl}?status=approved&image=${encodeURIComponent(imageUrl)}`;
+} else {
+  approveBtn.href = `${webhookUrl}?status=approved`;
+}
+
   </script>
 </body>
 </html>
